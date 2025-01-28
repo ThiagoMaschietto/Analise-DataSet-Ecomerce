@@ -1,0 +1,9 @@
+import pandas
+
+leitura = pandas.read_csv('caminho da tabela original', encoding='ISO-8859-1')
+leitura = leitura.sort_values(by="Quantity", ascending=False)
+leitura = leitura.dropna()
+leitura = leitura[leitura['Quantity'] >= 0]
+leitura = leitura[leitura['UnitPrice'] > 0.00]
+
+leitura.to_csv('tabela.csv', index=False)
