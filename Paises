@@ -1,0 +1,29 @@
+import pandas
+import matplotlib.pyplot as plt
+
+paises             = {}
+total_pais         = 0
+
+#pandas.set_option('display.max_rows', None)
+def adiciona_pais(pais):
+    for i in paises:
+        if i == pais:
+            paises[i] += 1
+            return 1
+
+    paises[pais] = 1
+    return 1
+
+leitura = pandas.read_csv('caminho da tabela que foi modificada')
+for pais in leitura.Country:
+    total_pais += adiciona_pais(pais)
+
+paises = dict(sorted(paises.items(), key=lambda item: item[1], reverse=True))
+print(paises)
+print(total_pais)
+
+plt.bar(paises.keys(), paises.values(), color='skyblue')
+plt.title('Paises compradores')
+plt.xticks(rotation=90, fontsize=8)
+plt.xlabel('Paises')
+plt.ylabel('Numero de Compras')
