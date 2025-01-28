@@ -1,0 +1,39 @@
+import pandas
+from collections import defaultdict
+import matplotlib.pyplot as plt
+
+produtos    = {}
+i           = 0
+leitura_qtd = {}
+leitura_pri = {}
+
+pandas.set_option('display.max_rows', None)
+def adiciona_produto(produto):
+    for i in produtos:
+        if i == produto:
+            return 
+    produtos[produto] = 1
+    return
+
+leitura  = pandas.read_csv('caminho da tabela que foi modificada')
+leitura1 = leitura['Description']
+leitura2 = leitura['Quantity']
+leitura3 = leitura['UnitPrice']
+leitura_qtd = defaultdict(list)
+
+for chave, valor in zip(leitura1, leitura2):
+    leitura_qtd[chave].append(valor)
+
+for chave, valor in leitura_qtd.items():
+    leitura_qtd[chave] = sum(leitura_qtd[chave])
+
+leitura_pri = dict(zip(leitura1,leitura3))
+
+rendimentos = {produto: round((leitura_qtd[produto] * leitura_pri[produto]), 3) for produto in leitura_qtd}
+
+rendimentos = dict(sorted(rendimentos.items(), key=lambda item: item[1], reverse=True))
+
+lista_preco = list(rendimentos.values())[:20]
+lista_nome  = list(rendimentos.keys())[:20]
+
+print(rendimentos)
