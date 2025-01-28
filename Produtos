@@ -1,0 +1,23 @@
+import pandas
+from collections import defaultdict
+import matplotlib.pyplot as plt
+
+leitura  = pandas.read_csv('caminho da tabela que foi modificada')
+leitura1 = list(leitura['Description'])[:31]
+leitura2 = list(leitura['Quantity'])[:31]
+leitura  = defaultdict(list)
+
+for chave, valor in zip(leitura1, leitura2):
+    leitura[chave].append(valor)
+
+for chave, valor in leitura.items():
+    leitura[chave] = sum(leitura[chave])
+
+produtos = dict(sorted(leitura.items(), key=lambda item: item[1], reverse=True))
+print(produtos)
+
+plt.bar(leitura1, leitura2, color='skyblue')
+plt.title('Os 20 Produtos mais Compradores')
+plt.xticks(rotation=90, fontsize=8)
+plt.xlabel('Produtos')
+plt.ylabel('Numero de Compras')
